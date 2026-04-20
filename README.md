@@ -6,7 +6,6 @@ Landing page estática para apresentação dos serviços de consultoria Zendesk 
 
 - `index.html` (conteúdo da página)
 - `assets/css/style.css` (estilos mobile-first)
-- `assets/js/main.js` (interações da interface)
 - `assets/img/logo-air.svg` (logo da marca)
 
 ## Executar localmente
