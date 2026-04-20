@@ -1,11 +1,33 @@
-const cta = document.querySelector('[data-cta]');
+const chatTriggers = document.querySelectorAll('[data-open-chat]');
 
-if (cta) {
-  cta.addEventListener('click', (event) => {
+function openZendeskChat() {
+  if (typeof window.zE === 'function') {
+    window.zE('messenger', 'open');
+    return true;
+  }
+
+  return false;
+}
+
+function openChatWithRetry(maxAttempts = 20, delayMs = 250) {
+  let attempts = 0;
+
+  const timer = window.setInterval(() => {
+    attempts += 1;
+
+    if (openZendeskChat() || attempts >= maxAttempts) {
+      window.clearInterval(timer);
+    }
+  }, delayMs);
+}
+
+chatTriggers.forEach((trigger) => {
+  trigger.addEventListener('click', (event) => {
     event.preventDefault();
-    const target = document.querySelector(cta.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const opened = openZendeskChat();
+    if (!opened) {
+      openChatWithRetry();
     }
   });
-}
+});
